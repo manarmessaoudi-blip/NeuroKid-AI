@@ -1,12 +1,11 @@
+# main.py
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base
-
-# Importer tous les modèles pour créer les tables
 import models
-from routers import auth 
+from routers import auth, child
 
-# Créer toutes les tables dans neurokid.db au démarrage
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -15,7 +14,6 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Autoriser le frontend React (port 3000) à parler au backend (port 8000)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
@@ -24,7 +22,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(auth.router)  
+app.include_router(auth.router)
+app.include_router(child.router)
 
 @app.get("/")
 def root():
