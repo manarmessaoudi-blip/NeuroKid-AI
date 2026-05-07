@@ -1,10 +1,8 @@
-# main.py
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base
 import models
-from routers import auth, child, questionnaire
+from routers import auth, child, questionnaire, video
 
 Base.metadata.create_all(bind=engine)
 
@@ -25,6 +23,7 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(child.router)
 app.include_router(questionnaire.router)
+app.include_router(video.router)
 
 
 @app.get("/")
