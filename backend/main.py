@@ -4,14 +4,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base
 import models
-from routers import auth, child
+from routers import auth, child, questionnaire
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="NeuroKid AI — Backend API",
     description="API pour le dépistage précoce de troubles du développement",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 app.add_middleware(
@@ -24,6 +24,8 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(child.router)
+app.include_router(questionnaire.router)
+
 
 @app.get("/")
 def root():
